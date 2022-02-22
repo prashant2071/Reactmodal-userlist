@@ -15,7 +15,7 @@ const AddUserHandler =(uname,uage) =>{
     <div>
       <ToastContainer/>
       <AddUser onAddUser={AddUserHandler}/>
-      <UserList user={userList}/>
+      {userList[0] &&<UserList user={userList}/>}
     </div>
   );
 }

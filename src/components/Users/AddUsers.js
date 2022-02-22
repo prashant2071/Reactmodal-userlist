@@ -2,17 +2,31 @@ import React, { useState } from "react";
 import { notify } from "../../helpers/Notification/notification";
 import Button from "../UI/Button";
 import Card from "../UI/Card";
+import ErrorModal from "../UI/ErrorModal";
 import classes from "./AddUser.module.css";
 
 const AddUser = (props) => {
   const [enteredUser, setEnteredUser] = useState("");
   const [enteredAge, setEnteredAge] = useState("");
+  const [error ,setError]= useState();
   const AddUserHandler = (event) => {
     event.preventDefault();
     if(enteredUser.trim().length===0 || enteredAge.trim().length===0){
+      setError({
+        title:"Invalid Input",
+        message :"please enter valid input for name and age"
+      })
       return;
+
+
     }
-    if(+enteredAge<1)return;
+    if(+enteredAge<1){
+      setError({
+        title:"Invalid age ",
+        message:"please enter age value (>0)"
+      })
+      return;
+    };
     props.onAddUser(enteredUser,enteredAge)
     console.log(enteredUser,"the age is ",enteredAge)
     setEnteredUser("");
@@ -22,9 +36,13 @@ const AddUser = (props) => {
   const {id,value } =e.target;
   (id==="username")?setEnteredUser(value):(id==="age")?setEnteredAge(value):notify.showError("form Id name didn't match")
   };
+  const Errorhandler = () =>{
+    setError(null);
+  }
 
   return (
     <>
+   {error &&( <ErrorModal title={error.title} message={error.message} onConfirm={Errorhandler}/>)}
       <Card className={classes.input}>
         <form onSubmit={AddUserHandler}>
           <label htmlFor="username">Username</label>
