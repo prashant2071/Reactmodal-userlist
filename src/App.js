@@ -12,11 +12,11 @@ const AddUserHandler =(uname,uage) =>{
   })
 }
   return (
-    <div>
+    <>
       <ToastContainer/>
       <AddUser onAddUser={AddUserHandler}/>
       {userList[0] &&<UserList user={userList}/>}
-    </div>
+    </>
   );
 }
 
